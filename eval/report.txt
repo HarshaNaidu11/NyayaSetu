@@ -1,0 +1,19 @@
+
+LEGAL AID LLM — EVALUATION REPORT
+Generated: 2026-05-04T17:27:30.349229
+Questions evaluated: 8
+
+METRICS
+-------
+Keyword hit rate (retrieval):  52%
+BERTScore F1:                  0.860
+Avg Flesch-Kincaid grade:      6.6 (target: ≤ 8)
+Avg NLI confidence:            0.27
+High-confidence answers:       0%
+Avg response time:             33.32s
+
+INTERPRETATION
+--------------
+FK grade ≤ 8 = readable by a Grade 8 student = good for first-gen litigants.
+NLI confidence ≥ 0.7 = answer is well-grounded in retrieved judgements.
+Keyword hit rate = proxy for retrieval correctness on our test set.

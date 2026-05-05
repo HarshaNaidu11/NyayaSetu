@@ -1,0 +1,99 @@
+question,topic,answer,n_sources,keyword_hit_rate,flesch_kincaid_grade,flesch_reading_ease,nli_confidence,elapsed_seconds,has_disclaimer
+Can my landlord evict me without giving any notice?,tenant_rights,"1.  India's Transfer of Property Act says landlords need a notice.
+2. This law requires written notices before eviction.
+3. Verbal orders are not legally valid. 
+4. A tenant cannot be evicted without proper notice.
+5. The tenant has the right to take action.
+6. They can go to the Rent Control Tribunal.  
+7.  The court will decide on the case.
+8. Go to [specific place] for free help.
+
+
+",5,0.5,5.6,70.6,0.203,27.15,False
+What are my rights if I am arrested by the police?,arrest_rights,"1. Police must tell you why they arrested you. (Article 22 of the Indian Constitution)
+2. You can have a lawyer during arrest. (CrPC)
+3. You must be taken before a magistrate within 24 hours. (CrPC)
+4. Police may not delay or deny your right to a lawyer. (Article 22)
+5.  You are allowed to tell someone you trust. (Section 498A IPC)
+6. Be careful of false accusations and avoid panic.
+7. If arrested, seek legal advice from a qualified lawyer.
+8. Go to [Specific Legal Aid Center] for free help. 
+
+
+
+
+⚠️ Note: This answer may not be fully supported by available judgements. Please consult a qualified lawyer for your specific situation.",5,1.0,6.3,64.8,0.522,35.54,True
+My employer fired me without any reason or notice. What can I do?,employment_rights,"1. Did your employer give a reason?
+2. Indian law says employers must follow rules.
+3.  Your dismissal might be unfair. 
+4.  Contact the Labour Court for help. (Section 106) 
+5. They can review the case if you feel wronged.
+6. Seek free legal counsel from a labor expert.
+7. Explain your situation to them, and ask for their advice. 
+8. Go to [National Legal Aid Authority] for free help. 
+
+
+
+
+
+⚠️ Note: This answer may not be fully supported by available judgements. Please consult a qualified lawyer for your specific situation.",5,0.0,5.6,69.8,0.056,32.36,True
+How do I complain against a company that sold me a defective product?,consumer_rights,"1. If you bought a defective product in India, check the Consumer Protection Act (CPA) 
+2. The CPA can help if you suffered damages due to the defect
+3. The company is obligated to provide remedy based on the law
+4. You need to file your complaint with the State Commission
+5.  Document evidence of the defect and its impact
+6. Be clear about how the product is defective
+7.  Provide details about your purchase and usage 
+8. Go to [Consumer Helpline] for free help. 
+
+
+⚠️ Note: This answer may not be fully supported by available judgements. Please consult a qualified lawyer for your specific situation.",5,0.333,6.8,64.8,0.685,32.09,True
+Can police enter my house without a warrant?,police_powers,"1.  Police need a warrant to enter your house. (Section 498A of Indian Penal Code)
+2.  This is based on the Fourth Amendment of US Constitution.
+3.  ""Knock and See"" procedure is part of law.
+4.  It's important for personal security and peace of mind.
+5.  Domestic violence laws offer protection and safeguards. 
+6.   If you fear threat, contact a lawyer immediately. 
+7.   They can guide you on legal steps and rights. 
+8.   Go to [specific place] for free help. 
+
+
+
+
+⚠️ Note: This answer may not be fully supported by available judgements. Please consult a qualified lawyer for your specific situation.",5,0.333,6.2,66.5,0.081,34.08,True
+What is the minimum wage I should be paid?,employment_rights,"1.  The Minimum Wages Act 1948 applies in India.
+2. The Minimum Wage varies by state and occupation.
+3. In Telangana, check the latest notification on labour.telangana.gov.in.
+4. This ensures workers receive at least the minimum wage set by the government.
+5. Wages must be paid on time and correctly. 
+6. You can find detailed information about Minimum Wage Acts from official sources.
+7. The Act guarantees that employers pay the minimum wage set for your work.  
+8. Go to [specific place] for free help. 
+
+
+⚠️ Note: This answer may not be fully supported by available judgements. Please consult a qualified lawyer for your specific situation.",5,0.667,7.6,59.2,0.003,34.8,True
+I have been denied a ration card. What can I do?,welfare_rights,"1.  The National Food Security Act (NFSA) grants rights.
+2. You can check eligibility criteria for a ration card.
+3. The NFSA defines priority households and the Antyodaya Anna Yojana (AAY). 
+4. If you meet the criteria, you should apply for a ration card.
+5. For legal aid on this matter, contact your local legal aid service.
+
+Go to [local legal aid service] for free help. 
+
+
+
+
+⚠️ Note: This answer may not be fully supported by available judgements. Please consult a qualified lawyer for your specific situation.",5,0.333,8.2,55.3,0.002,32.15,True
+Can I get bail if I am arrested?,arrest_rights,"1. Are you arrested?  You may be eligible for bail.
+2. You have the right to apply for bail under Section 436 of CrPC.
+3. Police and magistrates must grant bail for bailable offenses (section 436).
+4. You can be released on your own bond without a surety.
+5. For non-bailable offenses, there may be a special process. 
+6. If you are granted bail, the court will require personal bond or surety if necessary. 
+7.  If your case is heard at Consumer Fora, they can consider bail as a rule and jail as an exception.  
+8. Go to [specific place] for free help. 
+
+
+
+
+⚠️ Note: This answer may not be fully supported by available judgements. Please consult a qualified lawyer for your specific situation.",5,1.0,6.5,68.2,0.605,38.37,True
