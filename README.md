@@ -1,41 +1,57 @@
-# AI Legal Aid Assistant for First-Generation Litigants
+# ⚖️ Nyaya Setu — Multilingual Legal Aid LLM for India
 
-> A multilingual LLM system that explains Indian legal rights in plain language — in Telugu, Hindi, and English — to people who have never seen a courtroom.
+> A RAG-based LLM system that explains Indian legal rights in plain language — in Telugu, Hindi, and English — to first-generation litigants who have never seen a courtroom.
 
----
-
-## Problem
-
-Millions of Indians face courts, police stations, and consumer forums without understanding their basic legal rights. Most can't afford a lawyer. Legal documents are written for judges, not citizens. This project bridges that gap using a fine-tuned LLM with RAG-backed case retrieval and multilingual output.
+🔗 **[Live Demo](https://huggingface.co/spaces/Harsha11111/nyayasetu)** &nbsp;|&nbsp; Built by [N HarshaVardhan Raj](https://github.com/HarshaNaidu11) &nbsp;|&nbsp; BTech CSE, IIITDM Kurnool
 
 ---
 
-## What it does
+## The Problem
+
+Millions of Indians face courts, police stations, and consumer forums without understanding their basic legal rights. Most can't afford a lawyer. Legal documents are written for judges, not citizens. This project bridges that gap using a fine-tuned LLM with RAG-backed case retrieval, NLI hallucination detection, and multilingual output.
+
+---
+
+## What It Does
 
 - Accepts legal questions in **English, Telugu, or Hindi**
-- Retrieves relevant **Indian court judgements** from a FAISS vector index
-- Generates a **plain-language explanation** of the user's rights
-- Detects when the model is **hallucinating** and shows a confidence score
-- Outputs the answer **back in the user's language**
+- Retrieves relevant **Indian court judgements** from a FAISS vector index (25,909 chunks from 1,625 real cases)
+- Generates a **plain-language answer** using Groq LLaMA3, citing the exact Indian law that applies
+- **Detects hallucination** using DeBERTa-v3 NLI — shows disclaimer when answer is not grounded
+- Translates answers **back to the user's language** automatically
+- Deployed live on HuggingFace Spaces — free to use
+
+---
+
+## Evaluation Results
+
+| Metric | Score | Target |
+|---|---|---|
+| BERTScore F1 | **0.860** | higher is better |
+| Flesch-Kincaid Grade | **6.6** | ≤ 8 ✅ |
+| Keyword Hit Rate | **64%** | retrieval accuracy |
+| NLI Confidence | 0.27 | sentence-level entailment |
+| Avg Response Time | 33s (CPU) | ~3s on GPU |
+| Corpus Size | 1,625 judgements | 25,909 FAISS vectors |
 
 ---
 
 ## Architecture
 
 ```
-User query (Telugu/Hindi/English)
+User query (Telugu / Hindi / English)
         ↓
-IndicTrans2 → translate to English
+Google Translate → English query
         ↓
-BGE-M3 embedding → FAISS retrieval (top-5 chunks)
+MiniLM embedding → FAISS retrieval (top-5 chunks)
         ↓
-Fine-tuned Llama 3 / Mistral → generate answer
+Groq LLaMA3-8B → plain-language answer
         ↓
-NLI DeBERTa → entailment check → confidence score
+DeBERTa NLI → entailment check → confidence score
         ↓
-IndicTrans2 → translate answer back to user's language
+Google Translate → answer in user's language
         ↓
-Streamlit UI → show answer + sources + confidence badge
+Streamlit UI → answer + sources + confidence badge
 ```
 
 ---
@@ -44,67 +60,84 @@ Streamlit UI → show answer + sources + confidence badge
 
 | Layer | Tool |
 |---|---|
-| LLM | Llama 3-8B / Mistral-7B (via Ollama) |
-| Fine-tuning | QLoRA + PEFT (4-bit, runs on Colab free tier) |
-| Embeddings | BGE-M3 (multilingual, free) |
-| Vector DB | FAISS |
+| LLM (deployed) | Groq LLaMA3-8B (free API) |
+| LLM (local) | Gemma2:2B via Ollama |
+| Fine-tuning | QLoRA + PEFT (4-bit, Google Colab T4) |
+| Base model | TinyLlama-1.1B-Chat |
+| Embeddings | all-MiniLM-L6-v2 (sentence-transformers) |
+| Vector DB | FAISS (25,909 vectors, dim=384) |
 | RAG orchestration | LangChain |
-| Translation | IndicTrans2 (AI4Bharat) |
-| Hallucination check | DeBERTa-v3 NLI |
+| Translation | Google Translate (deep-translator) |
+| Hallucination check | DeBERTa-v3 NLI (cross-encoder) |
 | UI | Streamlit |
-| Deployment | HuggingFace Spaces |
+| Deployment | HuggingFace Spaces (Docker) |
 
 ---
 
-## Datasets
+## Corpus & Datasets
 
-| Dataset | Use | Link |
+| Source | Size | Use |
 |---|---|---|
-| Indian Kanoon | Primary corpus (50K+ judgements) | indiankanoon.org/api |
-| ILDC (IIT Delhi) | Fine-tuning pairs | HuggingFace: pile-of-law/pile-of-law |
-| NALSA FAQs | Supervised Q&A pairs | nalsa.gov.in |
-| Samanantar | Telugu/Hindi translation | ai4bharat.org |
+| Indian Kanoon API | 1,608 real judgements | Primary RAG corpus |
+| Synthetic legal KB | 20 documents | Guaranteed fallback |
+| Fine-tuning data | 238 Q&A pairs | QLoRA training |
+
+**Legal topics covered:** tenant eviction · arrest rights · consumer complaints · domestic violence · labour dismissal · bail · minimum wages · ration card · maternity benefits · land acquisition
 
 ---
 
-## Eval Results
+## What Makes It Novel
 
-| Metric | Baseline (Llama 3) | Fine-tuned |
-|---|---|---|
-| Retrieval hit rate | 61% | 84% |
-| BERTScore (F1) | 0.71 | 0.83 |
-| Avg confidence (NLI) | — | 0.79 |
-| Readability grade | 14.2 | 6.8 |
-
-*(Update these with your actual numbers after running eval/run_eval.py)*
+1. **Telugu/Hindi legal output** — near zero prior published work in regional-language Indian legal NLP
+2. **NLI hallucination gate** — sentence-level entailment verification before showing answer; most RAG systems skip this
+3. **Indian law fine-tuning** — base LLMs are trained on US/UK legal data; QLoRA fine-tuning on Indian Kanoon corpus corrects this
+4. **First-gen litigant UX** — Grade 6.6 reading level, numbered steps, plain language — designed for someone who has never been to court
+5. **Chunking strategy benchmarking** — recursive 512-token overlapping chunks benchmarked against fixed and semantic splitting
 
 ---
 
-## Setup
+## Local Setup
 
 ```bash
-git clone https://github.com/yourusername/legal-aid-llm
+git clone https://github.com/HarshaNaidu11/legal-aid-llm
 cd legal-aid-llm
+python -m venv venv
+venv\Scripts\activate        # Windows
 pip install -r requirements.txt
 ```
 
-### Step 1 — Download and index the corpus
+### Step 1 — Download corpus
 ```bash
 python scripts/download_corpus.py
+```
+
+### Step 2 — Build FAISS index
+```bash
 python scripts/build_index.py
 ```
 
-### Step 2 — Run the RAG pipeline (no fine-tuning yet)
+### Step 3 — Run locally (needs Ollama)
 ```bash
+ollama pull gemma2:2b
+ollama serve
 python scripts/rag_pipeline.py
 ```
 
-### Step 3 — Fine-tune (run on Google Colab A100)
-Open `models/finetune_qlora.ipynb` in Colab
-
 ### Step 4 — Launch UI
 ```bash
-streamlit run ui/app.py
+streamlit run ui/app.py --server.fileWatcherType none
+```
+
+### Step 5 — Fine-tune (Google Colab T4)
+```bash
+python models/finetune_guide.py   # generates Colab script
+# Upload data/finetune_data.jsonl to Colab and run models/finetune_qlora_colab.py
+```
+
+### Step 6 — Run evaluation
+```bash
+python eval/run_eval.py
+# Output saved to eval/report.txt
 ```
 
 ---
@@ -113,38 +146,47 @@ streamlit run ui/app.py
 
 ```
 legal-aid-llm/
-├── data/                  # Raw + processed corpus
-├── embeddings/            # FAISS index files
-├── models/                # Fine-tuning notebook + saved adapters
+├── data/
+│   └── raw/raw_judgements.jsonl     # 1,625 Indian court judgements
+├── embeddings/
+│   ├── legal_index.faiss            # FAISS index (25,909 vectors)
+│   └── chunks.pkl                   # chunk texts + metadata
+├── models/
+│   ├── finetune_guide.py            # generates Colab training script
+│   ├── finetune_qlora_colab.py      # QLoRA training (run on Colab)
+│   ├── create_finetune_data.py      # builds training dataset
+│   └── legal-llm-adapter/           # saved QLoRA adapter weights
 ├── scripts/
-│   ├── download_corpus.py # Fetch Indian Kanoon data
-│   ├── build_index.py     # Chunk + embed + build FAISS
-│   ├── rag_pipeline.py    # Core RAG logic
-│   └── translate.py       # IndicTrans2 wrapper
+│   ├── download_corpus.py           # fetch from Indian Kanoon API
+│   ├── build_index.py               # chunk + embed + build FAISS
+│   ├── rag_pipeline.py              # core RAG pipeline
+│   ├── translate.py                 # multilingual translation wrapper
+│   └── nli_checker.py              # DeBERTa hallucination detection
 ├── eval/
-│   └── run_eval.py        # Evaluation script
+│   ├── run_eval.py                  # evaluation script
+│   ├── report.txt                   # evaluation results
+│   └── summary.csv                  # per-question metrics
 ├── ui/
-│   └── app.py             # Streamlit UI
+│   └── app.py                       # local Streamlit UI
+├── app.py                           # HuggingFace deployment app
+├── Dockerfile                       # Docker config for HF Spaces
+├── WORKFLOW.md                      # step-by-step build guide
 └── requirements.txt
 ```
 
 ---
 
-## What makes this novel
-
-1. **Telugu/Hindi legal output** — near zero prior work in regional-language legal NLP
-2. **NLI hallucination gate** — answer verified against retrieved chunks before showing user
-3. **Indian law fine-tuning** — base LLMs are trained on US/UK law; this corrects that
-4. **First-gen litigant UX** — plain language, no jargon, confidence disclaimers
-5. **Chunking strategy benchmarking** — recursive vs. fixed vs. semantic (see eval/)
-
----
-
 ## Limitations
 
-- Not a substitute for legal advice — always recommends consulting a lawyer
-- Coverage limited to judgements in Indian Kanoon corpus
-- Translation quality varies for highly technical legal terms
+- Not a substitute for legal advice — always recommends consulting a qualified lawyer
+- Coverage limited to topics in Indian Kanoon corpus (6 of 10 topics fully covered)
+- NLI confidence is lower on longer synthesized answers — known metric limitation
+- Response time ~33s on CPU; ~3s projected on GPU deployment
 
 ---
 
+## Author
+
+**N HarshaVardhan Raj** 
+
+[LinkedIn](https://www.linkedin.com/in/n-harsha-vardhan-raj-7266432a4/) · [GitHub](https://github.com/HarshaNaidu11) · [Live Demo](https://huggingface.co/spaces/Harsha11111/nyayasetu)
